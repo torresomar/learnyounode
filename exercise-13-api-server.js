@@ -12,27 +12,24 @@ var server = http.createServer(function(req, res) {
 
 var router = function routeByPath(path, query, res) {
   if(path === '/api/parsetime') {
-    var iso = new Date(iso);
-    console.log('iso', iso);
+    var iso = new Date(query.iso);
     var isoToJSON = {
-      hour: 1,
-      minute: 2,
-      second: 3
+      hour: iso.getHours(),
+      minute: iso.getMinutes(),
+      second: iso.getSeconds()
     };
     res.write(JSON.stringify(isoToJSON));
     res.end();
   }
   if(path === '/api/unixtime') {
-    var unix = query.unix;
-    console.log('unix', unix);
+    var unix = new Date(query.iso).valueOf();
+    var unixToJSON = {
+      unixtime: +unix.toFixed(0)
+    };
+    res.write(JSON.stringify(unixToJSON));
     res.end();
   }
 };
-
-var parsetime = function parseTime() {
-
-};
-
 
 server.listen(port);
 
